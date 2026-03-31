@@ -1,0 +1,32 @@
+POTION PROBABILITY SNIPPET (CHEAT SHEET)
+
+Currently, your game works with a 100% success rate for potions. No code was altered!
+If the teacher asks for a "probability/chance for items to fail", use this snippet during the exam.
+
+------------------------------------------
+📋 WHERE TO PASTE THIS?
+------------------------------------------
+1. Open "Player.cs"
+2. Find the method: "public void UseItem(string potionType, List<Enemy> arenaDusmanlari)"
+3. Paste the following block of code EXACTLY below the line: "if (Inventory.Contains(potionType) == false) { ... return; }"
+
+
+        // ------- RANDOM POTION FAILURE CHANCE -------
+        Random dropChance = new Random();
+        int probability = dropChance.Next(1, 101); // Roll a number between 1 and 100
+        
+        // If the roll is greater than 50 (50% failure chance), the potion drops and shatters!
+        if (probability > 50) 
+        {
+            Console.WriteLine($"{Name} dropped the potion! The bottle shattered into pieces! (Turn wasted)");
+            Inventory.Remove(potionType); // The item is lost even if it failed
+            return; // Stops the method here, preventing the heal/attack code below from running
+        }
+        // ---------------------------------------------
+
+------------------------------------------
+⚙️ HOW DOES IT WORK?
+------------------------------------------
+When the user tries to use an item, a 50/50 coin is flipped.
+If the probability variable hits > 50, the "return" keyword immediately kills the method.
+This prevents the HP restoration or AoE logic below from executing, naturally wasting the player's turn.
